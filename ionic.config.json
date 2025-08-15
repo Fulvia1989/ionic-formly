@@ -1,0 +1,7 @@
+{
+  "name": "ionic-formly",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

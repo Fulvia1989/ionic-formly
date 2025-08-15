@@ -1,0 +1,55 @@
+<div class="primeng-input" (click)="toggleModal()">
+  <span class="input-text">{{ selectedOption ? getLabel(selectedOption) : defaultLabel }}</span>
+  <span class="input-icon"> <ion-icon name="chevron-down-outline"></ion-icon></span>
+</div>
+
+<ion-modal #modalEl [isOpen]="modal"
+[initialBreakpoint]="0.75"
+[backdropDismiss]="false"
+>
+  <ng-template>
+      <ion-header class="ion-no-border">
+          <ion-toolbar>
+              <ion-title>{{ header }}</ion-title>
+              <ion-buttons slot="end">
+                  <ion-button (click)="toggleModal(false)">
+                    <ion-icon size="large" name="close-outline"></ion-icon>
+                  </ion-button>
+              </ion-buttons>
+          </ion-toolbar>
+          <ion-toolbar>
+              <ion-searchbar mode="md" class="searchbar" [placeholder]="'Cerca'"
+              [debounce]="500"
+              clearIcon="close-circle-outline"
+              id="search"
+              name="search"
+              [formControl]="search"
+              (ionInput)="handleInput($event)"></ion-searchbar>
+          </ion-toolbar>
+      </ion-header>
+
+      <ion-content >
+        @if ((filteredOptions$ | async); as options) {
+
+         <div class="scrollable">
+          <ion-list id="modal-list" lines="inset">
+            <ion-radio-group  [(ngModel)]="selectedOption"
+            (ngModelChange)="onSelect($event)">
+
+            @for (option of options; track option[trackBy]) {
+              <ion-item>
+                <ion-radio labelPlacement="end"
+                [value]="option"
+                [id]="option[trackBy]">
+                {{ getLabel(option) }}
+              </ion-radio>
+              </ion-item>
+            }
+            </ion-radio-group >
+          </ion-list>
+         </div>
+        }
+      </ion-content>
+  </ng-template>
+</ion-modal>
+
